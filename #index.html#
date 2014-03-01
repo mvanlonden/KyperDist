@@ -1,0 +1,160 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kyper</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <script src="scripts/snap.svg-min.js"></script>
+    
+    
+    <!-- endbuild -->
+  </head>
+  <body ng-app="homeApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div id="canvas" style="background-color:none" >
+       <svg id="svg" viewBox="-500, 120, 650, 160"></svg>
+    </div>
+    <div class="container" style="height: 2000px;d">
+      <div class="title" style="">
+        <div class="titletext" style="" data-0="font-size:10em;" data-top="font-size:8em;">
+    yper        
+    
+      <!--<animate id="shiftLeft" attributeName="viewBox" begin="4s" dur="1.5s"
+           values="0 0 250 120; 140 0 250 120" fill="freeze" />-->
+  </div>
+  </div>
+  <div id="nav">
+    <div class="scrollBar">
+      <span id="top" class="glyphicon glyphicon-chevron-up"></span>
+      <span id="bottom" class="glyphicon glyphicon-chevron-down"></span>
+    </div>
+    <div class="iconVert">
+      <span id="home" class="glyphicon glyphicon-home"></span>
+      <span id="cog" class="glyphicon glyphicon-cog"></span>
+      <span id="envelope" class="glyphicon glyphicon-envelope"></span>
+    </div>
+  </div>
+  <script>
+    var base
+        , baseMask
+        , shadow
+        , overlay;
+    var s = Snap("#svg");
+
+    var mat = new Snap.Matrix();
+    console.log(mat.toTransformString());
+    mat.translate(-124, 0);
+    console.log(mat.toTransformString());
+
+
+    var logo = s.g().attr({id: 'logo'});
+    var basePoints = "0,60," + (Math.sqrt(200) *10)+ ",80," + (10*(Math.sqrt(200) + 4)) +",120,"+ ((Math.sqrt(200) + 4)*10) +",0,"+ (Math.sqrt(200)*10)+",40";
+    var baseMaskPoints = (Math.sqrt(200) *10)+ ",80," + (10*(Math.sqrt(200) + 4)) +",120,"+ ((Math.sqrt(200) + 4)*10) +",0,"+ (Math.sqrt(200)*10)+",40";
+    baseMask = s.polygon(baseMaskPoints).attr({fill: 'red'});
+    base = s.polygon(basePoints).attr({fill: '#B876B6'});
+    logo.add(base);
+    var shadowPoints = (Math.sqrt(200) *10)+",90, " + (Math.sqrt(200) *10)+ ",80, "+(Math.sqrt(200)*10)+",40";
+    shadow = s.polygon(shadowPoints).attr({fill: '#7A4E79', mask: baseMask});
+    logo.add(shadow);
+    var overlayPoints = (Math.sqrt(200) *10)+",60, " + (Math.sqrt(200) *10)+ ",80, "+(Math.sqrt(200)*10)+",40";
+    overlay = s.polygon(overlayPoints).attr({fill: '#85A6D8'});
+    logo.add(overlay);
+    function overlayAnimation(){
+      var newOverlay = (10*(Math.sqrt(200) + 10))+",60, " + (Math.sqrt(200) *10)+ ",80, "+(Math.sqrt(200)*10)+",40"
+      overlay.animate({points: newOverlay}, 200, mina.easein);
+    };
+    function baseAnimation(){
+      var newBase = (Math.sqrt(200) *10)+",60, " + (Math.sqrt(200) *10)+ ",80, " + (10*(Math.sqrt(200) + 4)) +",120, "+ ((Math.sqrt(200) + 4)*10) +",0, "+ (Math.sqrt(200)*10)+",40";
+      base.animate({points: newBase}, 800, mina.easeout, function(){shadowAnimation(); overlayAnimation();});
+    };
+    function shadowAnimation(){
+      var newShadow = (10*(Math.sqrt(200) + 10))+",90, " + (Math.sqrt(200) *10)+ ",80, "+(Math.sqrt(200)*10)+",40";
+      shadow.animate({points: newShadow}, 200, mina.easein);
+    };
+    function rotate(){
+      logo.animate({
+        transform: 't-440, 0r-45, 164, 60'
+      }, 2000, mina.backin);
+    };
+    setTimeout(function(){baseAnimation()},1000);
+    rotate();
+
+    // grab elements as array, rather than as NodeList
+    var elements = document.querySelectorAll("...");
+    elements = Array.prototype.slice.call(elements);
+
+    // make each element do something on scroll
+    elements.forEach(function(element) {
+      window.addEventListener("scroll", function(evt) {
+      // not the most exciting thing, but a thing nonetheless
+      console.log(element);
+      });
+    });
+
+
+  </script>
+</div>
+</div>
+<div class="container" ng-view="">
+</div>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <!-- Live Reload -->
+    <script src="//localhost:35729/livereload.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <!-- endbuild -->
+        <script src="scripts/jquery-1.10.1.min.js"></script>
+        <script src="scripts/bootstrap.js"></script>
+        <script src="scripts/jquery.backstretch.min.js"></script>
+        <script>
+        $.backstretch("img/space.png");
+        </script>
+        <script type="text/javascript" src="scripts/skrollr.js"></script>
+        <script type="text/javascript">
+    var s = skrollr.init();
+    </script>
+</body>
+</html>
